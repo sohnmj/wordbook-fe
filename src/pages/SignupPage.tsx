@@ -37,11 +37,11 @@ const InputField = ({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       autoFocus={autoFocus}
-      className={`w-full rounded-xl px-4 py-2.5 text-sm border transition-colors
+      className={`w-full rounded-md px-4 py-2.5 text-sm border transition-colors
                   focus:outline-none focus:ring-2
                   ${error
                     ? "border-red-300 focus:ring-red-200 bg-red-50"
-                    : "border-gray-200 focus:ring-blue-100 focus:border-blue-400 bg-white"}`}
+                    : "border-gray-300 focus:ring-blue-600/20 focus:border-blue-600 bg-white"}`}
     />
     {error && <p className="text-xs text-red-500 flex items-center gap-1">⚠ {error}</p>}
     {hint && !error && <p className="text-xs text-gray-400">{hint}</p>}
@@ -122,20 +122,13 @@ const SignupPage = () => {
   const pwMismatch = form.confirmPassword && form.password !== form.confirmPassword;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-sm">
 
         {/* 로고 */}
         <div className="text-center mb-8">
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center
-                          mx-auto mb-3 shadow-md shadow-blue-200">
-            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none"
-              stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-            </svg>
-          </div>
-          <h1 className="text-xl font-bold text-gray-900">WordBook 가입</h1>
+          <p className="font-serif text-3xl font-bold text-blue-600 tracking-tight mb-2">WordBook</p>
+          <h1 className="text-base font-semibold text-gray-900">WordBook 가입</h1>
           <p className="text-sm text-gray-500 mt-1">나만의 단어장을 만들어보세요</p>
         </div>
 
@@ -173,12 +166,12 @@ const SignupPage = () => {
         </div>
 
         {/* 카드 */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
+        <div className="bg-white rounded-md border border-gray-200 border-t-4 border-t-blue-600 p-6 space-y-5">
 
           {/* 성공 메시지 */}
           {successMsg && (
             <div className="flex items-start gap-2.5 bg-green-50 border border-green-100
-                            rounded-xl px-4 py-3">
+                            rounded-md px-4 py-3">
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0"
                 fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -191,7 +184,7 @@ const SignupPage = () => {
           {/* 에러 메시지 */}
           {error && (
             <div className="flex items-start gap-2.5 bg-red-50 border border-red-100
-                            rounded-xl px-4 py-3">
+                            rounded-md px-4 py-3">
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0"
                 fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -218,7 +211,7 @@ const SignupPage = () => {
                 disabled={loading || !email}
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
                            disabled:cursor-not-allowed text-white font-semibold py-2.5
-                           rounded-xl transition-colors flex items-center justify-center gap-2"
+                           rounded-md transition-colors flex items-center justify-center gap-2"
               >
                 {loading ? <><Spinner /> 발송 중...</> : "인증코드 받기"}
               </button>
@@ -237,10 +230,10 @@ const SignupPage = () => {
                   placeholder="코드 6자리 입력"
                   maxLength={10}
                   autoFocus
-                  className="w-full rounded-xl px-4 py-2.5 text-center text-xl font-bold
-                             tracking-[0.5em] border border-gray-200 bg-white
-                             focus:outline-none focus:ring-2 focus:ring-blue-100
-                             focus:border-blue-400 transition-colors"
+                  className="w-full rounded-md px-4 py-2.5 text-center text-xl font-bold
+                             tracking-[0.5em] border border-gray-300 bg-white
+                             focus:outline-none focus:ring-2 focus:ring-blue-600/20
+                             focus:border-blue-600 transition-colors"
                 />
                 <p className="text-xs text-gray-400 text-center">
                   <span className="font-medium text-gray-600">{email}</span>으로 발송됨
@@ -251,7 +244,7 @@ const SignupPage = () => {
                 disabled={loading || !code}
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
                            disabled:cursor-not-allowed text-white font-semibold py-2.5
-                           rounded-xl transition-colors flex items-center justify-center gap-2"
+                           rounded-md transition-colors flex items-center justify-center gap-2"
               >
                 {loading ? <><Spinner /> 확인 중...</> : "인증 확인"}
               </button>
@@ -296,13 +289,13 @@ const SignupPage = () => {
                     value={form.confirmPassword}
                     onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                     placeholder="비밀번호 재입력"
-                    className={`w-full rounded-xl px-4 py-2.5 pr-10 text-sm border transition-colors
+                    className={`w-full rounded-md px-4 py-2.5 pr-10 text-sm border transition-colors
                                 focus:outline-none focus:ring-2
                                 ${pwMismatch
                                   ? "border-red-300 focus:ring-red-200 bg-red-50"
                                   : pwMatch
                                   ? "border-green-300 focus:ring-green-100 bg-green-50"
-                                  : "border-gray-200 focus:ring-blue-100 focus:border-blue-400 bg-white"}`}
+                                  : "border-gray-300 focus:ring-blue-600/20 focus:border-blue-600 bg-white"}`}
                   />
                   {/* 일치 여부 아이콘 */}
                   {form.confirmPassword && (
@@ -329,7 +322,7 @@ const SignupPage = () => {
                 disabled={loading || !form.username || !pwMatch}
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
                            disabled:cursor-not-allowed text-white font-semibold py-2.5
-                           rounded-xl transition-colors flex items-center justify-center gap-2 mt-2"
+                           rounded-md transition-colors flex items-center justify-center gap-2 mt-2"
               >
                 {loading ? <><Spinner /> 처리 중...</> : "가입 완료"}
               </button>

@@ -25,7 +25,7 @@ const OAuthCallbackPage = () => {
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-red-500 font-medium">소셜 로그인에 실패했습니다.</p>
+        <p className="font-serif text-red-500 text-lg font-bold">소셜 로그인에 실패했습니다.</p>
         <button
           onClick={() => navigate("/login")}
           className="text-sm text-blue-600 hover:underline"
@@ -43,7 +43,7 @@ const OAuthCallbackPage = () => {
           stroke="currentColor" strokeWidth="4" />
         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
       </svg>
-      <p className="text-gray-500 text-sm">로그인 처리 중...</p>
+      <p className="font-serif text-gray-600">로그인 처리 중...</p>
     </div>
   );
 };

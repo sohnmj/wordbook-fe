@@ -37,9 +37,9 @@ const HighlightedExample = ({
 }) => {
   if (!example) return null;
   return (
-    <p className="text-gray-700 text-sm leading-relaxed">
+    <p className="text-gray-800 text-sm leading-relaxed">
       {example.slice(0, start)}
-      <span className="bg-yellow-200 text-yellow-900 font-semibold px-0.5 rounded">
+      <span className="bg-marker text-gray-900 font-semibold px-0.5 rounded-sm">
         {example.slice(start, end)}
       </span>
       {example.slice(end)}
@@ -221,10 +221,10 @@ const HomePage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
 
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-blue-600 tracking-tight">📖 WordBook</h1>
-          <div className="flex items-center gap-4">
+          <h1 className="font-serif text-xl font-bold text-blue-600 tracking-tight">📖 WordBook</h1>
+          <div className="flex items-center gap-3 sm:gap-4 whitespace-nowrap">
                   <button
         onClick={() => navigate("/wordbook")}
         className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
@@ -251,15 +251,15 @@ const HomePage = () => {
 
         {/* ── Usage 현황 + 충전 카드 ── */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex flex-col gap-2">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">남은 검색 횟수</p>
+          <div className="bg-white rounded-md border border-gray-200 p-5 flex flex-col gap-2">
+            <p className="text-xs font-semibold text-gray-500">남은 검색 횟수</p>
             {usageLoading ? (
               <div className="h-8 w-16 bg-gray-100 animate-pulse rounded-lg" />
             ) : usageCount === null ? (
               <p className="text-sm text-red-500">조회 실패</p>
             ) : (
               <div className="flex items-end gap-2">
-                <span className={`text-4xl font-bold ${hasUsage ? "text-blue-600" : "text-red-500"}`}>
+                <span className={`text-4xl font-serif font-bold ${hasUsage ? "text-blue-600" : "text-red-500"}`}>
                   {usageCount}
                 </span>
                 <span className="text-sm text-gray-400 mb-1">회</span>
@@ -271,21 +271,21 @@ const HomePage = () => {
             </span>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex flex-col gap-3">
+          <div className="bg-white rounded-md border border-gray-200 p-5 flex flex-col gap-3">
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Usage 충전</p>
+              <p className="text-xs font-semibold text-gray-500">Usage 충전</p>
               <p className="text-xs text-gray-400 mt-0.5">관리자에게 충전을 요청합니다.</p>
             </div>
             <button
               onClick={handleCharge}
               disabled={chargeLoading}
-              className="mt-auto w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300
-                         disabled:cursor-not-allowed text-white text-sm font-semibold
-                         py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="mt-auto w-full bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 disabled:border-blue-200 disabled:text-blue-300
+                         disabled:cursor-not-allowed text-sm font-semibold
+                         py-2 rounded-md transition-colors flex items-center justify-center gap-2"
             >
               {chargeLoading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                  <svg className="animate-spin h-4 w-4 text-blue-600" viewBox="0 0 24 24" fill="none">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
@@ -302,12 +302,12 @@ const HomePage = () => {
         </div>
 
         {/* ── 검색 카드 ── */}
-        <div className={`bg-white rounded-2xl shadow-sm border p-6 transition-opacity
-                        ${!hasUsage && !usageLoading ? "opacity-60 pointer-events-none" : "border-gray-100"}`}>
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">단어 검색</h2>
+        <div className={`bg-white rounded-md border border-gray-200 p-6 transition-opacity
+                        ${!hasUsage && !usageLoading ? "opacity-60 pointer-events-none" : ""}`}>
+          <h2 className="font-serif text-xl font-bold text-gray-900 mb-4">단어 검색</h2>
           <form onSubmit={handleSearch} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                 단어 <span className="text-red-500">*</span>
               </label>
               <input
@@ -317,8 +317,8 @@ const HomePage = () => {
                 onChange={handleChange}
                 placeholder="검색할 단어를 입력하세요"
                 disabled={!hasUsage}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
+                           focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20
                            disabled:bg-gray-100 disabled:cursor-not-allowed"
                 required
               />
@@ -326,14 +326,14 @@ const HomePage = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">언어</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">언어</label>
                 <select
                   name="lang"
                   value={form.lang}
                   onChange={handleChange}
                   disabled={!hasUsage}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                             focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
+                             focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 bg-white
                              disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
                   {LANGUAGES.map((l) => (
@@ -342,14 +342,14 @@ const HomePage = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">주제</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">주제</label>
                 <select
                   name="topic"
                   value={form.topic}
                   onChange={handleChange}
                   disabled={!hasUsage}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                             focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
+                             focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 bg-white
                              disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
                   {TOPICS.map((t) => (
@@ -360,7 +360,7 @@ const HomePage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                 의미 힌트 <span className="text-xs text-gray-400 font-normal">(선택)</span>
               </label>
               <input
@@ -370,8 +370,8 @@ const HomePage = () => {
                 onChange={handleChange}
                 placeholder="예) 사랑, love, 走る..."
                 disabled={!hasUsage}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
+                           focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20
                            disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
             </div>
@@ -381,8 +381,8 @@ const HomePage = () => {
                 type="submit"
                 disabled={isSearchDisabled}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
-                           disabled:cursor-not-allowed text-white font-semibold py-2
-                           rounded-lg transition-colors flex items-center justify-center gap-2"
+                           disabled:cursor-not-allowed text-white font-semibold py-2.5
+                           rounded-md transition-colors flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -398,7 +398,7 @@ const HomePage = () => {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600
+                  className="px-4 py-2 rounded-md border border-gray-300 text-gray-600
                              hover:bg-gray-100 text-sm transition-colors"
                 >
                   초기화
@@ -410,22 +410,22 @@ const HomePage = () => {
 
         {/* 에러 */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-5 py-4 text-center">
+          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-md px-5 py-4 text-center">
             ⚠️ {error}
           </div>
         )}
 
         {/* ── 결과 카드 ── */}
         {result && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="text-3xl font-bold text-gray-900 tracking-tight">{result.word}</h3>
+          <div className="bg-white rounded-md border border-gray-200 p-6 space-y-5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h3 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight break-words">{result.word}</h3>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="font-serif italic text-blue-600 text-sm">
                     {result.lang}
                   </span>
-                  <span className="bg-purple-100 text-purple-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="text-gray-500 text-xs border border-gray-300 px-2 py-0.5 rounded-sm">
                     {result.topic}
                   </span>
                 </div>
@@ -433,18 +433,18 @@ const HomePage = () => {
               {/* 단어장 추가 버튼 */}
               <button
                 onClick={handleOpenWordBookModal}
-                className="flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600
-                           text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white shrink-0 whitespace-nowrap
+                           text-sm font-medium px-3 py-1.5 rounded-md transition-colors"
               >
                 <span>＋</span> 단어장에 추가
               </button>
             </div>
 
-            <hr className="border-gray-100" />
+            <hr className="border-gray-200" />
 
             <div className="space-y-1">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">뜻</p>
-              <p className="text-gray-800 font-medium">{result.meaning}</p>
+              <p className="text-xs font-semibold text-gray-500">뜻</p>
+              <p className="font-serif text-lg text-gray-900 font-bold">{result.meaning}</p>
               {result.translation && (
                 <p className="text-gray-500 text-sm">{result.translation}</p>
               )}
@@ -452,8 +452,8 @@ const HomePage = () => {
 
             {result.example && (
               <div className="space-y-1">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">예문</p>
-                <div className="bg-gray-50 rounded-xl px-4 py-3 space-y-1">
+                <p className="text-xs font-semibold text-gray-500">예문</p>
+                <div className="bg-gray-50 border-l-4 border-blue-600 rounded-r-md px-4 py-3 space-y-1">
                   <HighlightedExample
                     example={result.example}
                     start={result.startIndex}
@@ -480,10 +480,10 @@ const HomePage = () => {
 
       {/* ── 단어장 추가 모달 ── */}
       {showWordBookModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm space-y-4">
+        <div className="fixed inset-0 bg-gray-900/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-md border border-gray-200 border-t-4 border-t-blue-600 shadow-xl p-6 w-full max-w-sm space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">단어장에 추가</h2>
+              <h2 className="font-serif text-xl font-bold text-gray-900">단어장에 추가</h2>
               <button
                 onClick={() => setShowWordBookModal(false)}
                 className="text-gray-400 hover:text-gray-600 text-xl leading-none"
@@ -494,7 +494,7 @@ const HomePage = () => {
 
             {/* 새 단어장 생성 */}
             <div className="space-y-2">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">새 단어장 만들기</p>
+              <p className="text-xs font-semibold text-gray-500">새 단어장 만들기</p>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -502,14 +502,14 @@ const HomePage = () => {
                   onChange={(e) => setNewWordBookName(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleCreateWordBook()}
                   placeholder="단어장 이름 입력"
-                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm
-                             focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm
+                             focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
                 />
                 <button
                   onClick={handleCreateWordBook}
                   disabled={createLoading || !newWordBookName.trim()}
                   className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
-                             text-white text-sm font-semibold px-4 rounded-lg transition-colors
+                             text-white text-sm font-semibold px-4 rounded-md transition-colors
                              disabled:cursor-not-allowed"
                 >
                   {createLoading ? "..." : "생성"}
@@ -517,11 +517,11 @@ const HomePage = () => {
               </div>
             </div>
 
-            <hr className="border-gray-100" />
+            <hr className="border-gray-200" />
 
             {/* 기존 단어장 목록 */}
             <div className="space-y-2">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">내 단어장</p>
+              <p className="text-xs font-semibold text-gray-500">내 단어장</p>
               {wordBooks.length === 0 ? (
                 <p className="text-sm text-gray-400 text-center py-4">
                   단어장이 없습니다. 위에서 생성해주세요.
@@ -534,11 +534,11 @@ const HomePage = () => {
                         onClick={() => handleAddToWordBook(wb.id)}
                         disabled={addLoading === wb.id}
                         className="w-full flex items-center justify-between px-4 py-3
-                                   border border-gray-200 rounded-xl hover:bg-blue-50
+                                   border border-gray-200 rounded-md hover:bg-blue-50
                                    hover:border-blue-300 transition-colors text-left
                                    disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        <span className="text-sm font-medium text-gray-700">📚 {wb.name}</span>
+                        <span className="font-serif font-bold text-gray-900">📚 {wb.name}</span>
                         {addLoading === wb.id ? (
                           <svg className="animate-spin h-4 w-4 text-blue-500" viewBox="0 0 24 24" fill="none">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -566,11 +566,11 @@ const HomePage = () => {
 
       {/* ── 회원탈퇴 확인 모달 ── */}
       {showWithdrawModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm space-y-4">
+        <div className="fixed inset-0 bg-gray-900/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-md border border-gray-200 border-t-4 border-t-blue-600 shadow-xl p-6 w-full max-w-sm space-y-4">
             <div className="text-center space-y-2">
               <p className="text-3xl">⚠️</p>
-              <h2 className="text-lg font-bold text-gray-800">회원 탈퇴</h2>
+              <h2 className="font-serif text-xl font-bold text-gray-900">회원 탈퇴</h2>
               <p className="text-sm text-gray-500">
                 탈퇴하면 저장된 단어장, 검색 기록 등<br />
                 <span className="text-red-500 font-semibold">모든 데이터가 영구 삭제</span>됩니다.
@@ -582,7 +582,7 @@ const HomePage = () => {
                 onClick={() => setShowWithdrawModal(false)}
                 disabled={withdrawLoading}
                 className="flex-1 border border-gray-300 text-gray-600 hover:bg-gray-50
-                           text-sm font-medium py-2 rounded-lg transition-colors disabled:cursor-not-allowed"
+                           text-sm font-medium py-2 rounded-md transition-colors disabled:cursor-not-allowed"
               >
                 취소
               </button>
@@ -590,7 +590,7 @@ const HomePage = () => {
                 onClick={handleWithdraw}
                 disabled={withdrawLoading}
                 className="flex-1 bg-red-500 hover:bg-red-600 disabled:bg-red-300
-                           text-white text-sm font-semibold py-2 rounded-lg transition-colors
+                           text-white text-sm font-semibold py-2 rounded-md transition-colors
                            disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {withdrawLoading ? (

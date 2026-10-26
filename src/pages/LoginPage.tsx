@@ -31,44 +31,47 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm space-y-5">
-        <h1 className="text-2xl font-bold text-center text-gray-800">로그인</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
+      <div className="bg-white px-8 pt-9 pb-8 rounded-md border border-gray-200 border-t-4 border-t-blue-600 w-full max-w-sm space-y-6">
+        <div className="text-center border-b border-gray-200 pb-5">
+          <p className="font-serif text-3xl font-bold text-blue-600 tracking-tight">WordBook</p>
+          <h1 className="mt-1 text-sm font-medium text-gray-500">로그인</h1>
+        </div>
 
         {/* 일반 로그인 폼 */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">아이디</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">아이디</label>
             <input
               type="text"
               value={form.username}
               onChange={(e) => setForm({ ...form, username: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 bg-gray-50 rounded-md px-3 py-2.5 text-sm
+                         focus:outline-none focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
               placeholder="아이디를 입력하세요"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">비밀번호</label>
             <input
               type="password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 bg-gray-50 rounded-md px-3 py-2.5 text-sm
+                         focus:outline-none focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
               placeholder="비밀번호를 입력하세요"
               required
             />
           </div>
 
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {error && <p className="text-red-500 text-sm bg-red-50 border border-red-100 rounded-md px-3 py-2">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300
-                       text-white font-semibold py-2 rounded-lg transition-colors"
+                       text-white font-semibold py-2.5 rounded-md transition-colors"
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>
@@ -86,7 +89,7 @@ const LoginPage = () => {
           <button
             onClick={() => handleSocialLogin("google")}
             className="w-full flex items-center justify-center gap-3 border border-gray-300
-                       rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700
+                       rounded-md px-4 py-2.5 text-sm font-medium text-gray-700
                        hover:bg-gray-50 transition-colors"
           >
             {/* Google SVG */}
@@ -102,7 +105,7 @@ const LoginPage = () => {
           <button
             onClick={() => handleSocialLogin("kakao")}
             className="w-full flex items-center justify-center gap-3
-                       bg-[#FEE500] hover:bg-[#fada00] rounded-lg px-4 py-2.5
+                       bg-[#FEE500] hover:bg-[#fada00] rounded-md px-4 py-2.5
                        text-sm font-medium text-[#3C1E1E] transition-colors"
           >
             {/* Kakao SVG */}

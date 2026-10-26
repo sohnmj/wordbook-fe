@@ -36,7 +36,7 @@ const HighlightedExample = ({ example, start, end }: { example: string; start: n
   return (
     <span className="text-gray-600 text-sm leading-relaxed">
       {example.slice(0, start)}
-      <mark className="bg-yellow-100 text-yellow-800 font-medium px-0.5 rounded not-italic">
+      <mark className="bg-marker text-gray-900 font-semibold px-0.5 rounded-sm not-italic">
         {example.slice(start, end)}
       </mark>
       {example.slice(end)}
@@ -174,15 +174,15 @@ const WordBookPage = () => {
     const liked = likedSet.has(id);
     const isLoading = likeLoading === id;
     const base = size === "sm"
-      ? "flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all"
-      : "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all";
+      ? "flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all"
+      : "flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-sm font-medium transition-all";
     return (
       <button
         onClick={(e) => handleLike(id, e)}
         disabled={isLoading}
         className={`${base} ${liked
-          ? "bg-rose-500 text-white shadow-sm shadow-rose-200"
-          : "bg-gray-100 text-gray-500 hover:bg-rose-50 hover:text-rose-500"
+          ? "bg-blue-600 text-white"
+          : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-600"
         } disabled:cursor-not-allowed`}
       >
         {isLoading
@@ -199,9 +199,9 @@ const WordBookPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-20">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
           <button
             onClick={() => selectedWordBook ? setSelectedWordBook(null) : navigate("/")}
@@ -212,7 +212,7 @@ const WordBookPage = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-base font-bold text-gray-900">
+          <h1 className="font-serif text-lg font-bold text-gray-900">
             {selectedWordBook ? selectedWordBook.name : "단어장"}
           </h1>
         </div>
@@ -245,15 +245,15 @@ const WordBookPage = () => {
             ) : (
               selectedWordBook.words.map((word) => (
                 <div key={word.wordId}
-                  className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                  className="bg-white rounded-md border border-gray-200 overflow-hidden">
                   {/* 단어 헤더 */}
                   <div className="px-5 pt-5 pb-3 flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-baseline gap-2">
-                        <h3 className="text-xl font-bold text-gray-900">{word.word}</h3>
-                        <span className="text-xs text-gray-400">{word.lang}</span>
+                        <h3 className="font-serif text-2xl font-bold text-gray-900">{word.word}</h3>
+                        <span className="font-serif italic text-sm text-blue-600">{word.lang}</span>
                       </div>
-                      <p className="text-gray-700 mt-1 text-sm">{word.meaning}</p>
+                      <p className="text-gray-800 mt-1 text-sm font-medium">{word.meaning}</p>
                       {word.translation && (
                         <p className="text-gray-400 text-xs mt-0.5">{word.translation}</p>
                       )}
@@ -277,8 +277,8 @@ const WordBookPage = () => {
 
                   {/* 예문 */}
                   {word.example && (
-                    <div className="mx-5 mb-4 px-4 py-3 bg-gray-50 rounded-xl border-l-2 border-blue-200">
-                      <p className="text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide">예문</p>
+                    <div className="mx-5 mb-4 px-4 py-3 bg-gray-50 rounded-r-md border-l-4 border-blue-600">
+                      <p className="text-xs font-semibold text-gray-500 mb-1.5">예문</p>
                       <HighlightedExample
                         example={word.example}
                         start={word.startIndex}
@@ -292,8 +292,8 @@ const WordBookPage = () => {
 
                   {/* 태그 */}
                   <div className="px-5 pb-4">
-                    <span className="inline-block bg-purple-50 text-purple-600 text-xs
-                                     font-medium px-2 py-0.5 rounded-md">
+                    <span className="inline-block text-gray-500 text-xs border border-gray-300
+                                     px-2 py-0.5 rounded-sm">
                       {word.topic}
                     </span>
                   </div>
@@ -305,15 +305,15 @@ const WordBookPage = () => {
           /* ── 목록 뷰 ── */
           <div className="space-y-4">
             {/* 탭 */}
-            <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
+            <div className="flex border-b border-gray-300 gap-1">
               {([["my", "내 단어장"], ["popular", "인기 단어장"]] as const).map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => setTab(key)}
-                  className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all
+                  className={`flex-1 py-2 text-sm font-semibold rounded-t-md border border-transparent -mb-px transition-colors
                     ${tab === key
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"}`}
+                      ? "bg-white text-blue-600 border-gray-300 border-b-white"
+                      : "bg-gray-100 text-gray-500 hover:text-gray-700"}`}
                 >
                   {label}
                 </button>
@@ -325,7 +325,7 @@ const WordBookPage = () => {
               myListLoading ? (
                 <div className="space-y-2.5">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-white rounded-2xl h-[76px] animate-pulse border border-gray-100" />
+                    <div key={i} className="bg-white rounded-md h-[76px] animate-pulse border border-gray-200" />
                   ))}
                 </div>
               ) : myWordBooks.length === 0 ? (
@@ -347,12 +347,12 @@ const WordBookPage = () => {
                     <div
                       key={wb.id}
                       onClick={() => handleSelectWordBook(wb.id)}
-                      className="bg-white rounded-2xl border border-gray-100 px-5 py-4
+                      className="bg-white rounded-md border border-gray-200 px-5 py-4
                                  flex items-center justify-between cursor-pointer
-                                 hover:border-blue-200 hover:shadow-sm transition-all group"
+                                 hover:border-blue-600 transition-colors group"
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center
+                        <div className="w-10 h-10 bg-blue-50 rounded-md flex items-center
                                         justify-center flex-shrink-0 group-hover:bg-blue-100 transition-colors">
                           <svg viewBox="0 0 24 24" className="h-5 w-5 text-blue-500" fill="none"
                             stroke="currentColor" strokeWidth="1.8">
@@ -361,7 +361,7 @@ const WordBookPage = () => {
                           </svg>
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">{wb.name}</p>
+                          <p className="font-serif font-bold text-gray-900 truncate">{wb.name}</p>
                           <p className="text-xs text-gray-400 mt-0.5">단어 {wb.count ?? 0}개</p>
                         </div>
                       </div>
@@ -395,7 +395,7 @@ const WordBookPage = () => {
               popularLoading ? (
                 <div className="space-y-2.5">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-white rounded-2xl h-[76px] animate-pulse border border-gray-100" />
+                    <div key={i} className="bg-white rounded-md h-[76px] animate-pulse border border-gray-200" />
                   ))}
                 </div>
               ) : popularWordBooks.length === 0 ? (
@@ -413,22 +413,22 @@ const WordBookPage = () => {
                     <div
                       key={wb.id}
                       onClick={() => handleSelectWordBook(wb.id)}
-                      className="bg-white rounded-2xl border border-gray-100 px-5 py-4
+                      className="bg-white rounded-md border border-gray-200 px-5 py-4
                                  flex items-center justify-between cursor-pointer
-                                 hover:border-blue-200 hover:shadow-sm transition-all group"
+                                 hover:border-blue-600 transition-colors group"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         {/* 순위 */}
                         <div className={`w-10 h-10 flex items-center justify-center
-                                         rounded-xl flex-shrink-0 text-lg
+                                         rounded-md flex-shrink-0 text-lg
                                          ${idx < 3 ? "" : "bg-gray-50"}`}>
                           {idx < 3
                             ? MEDAL[idx]
-                            : <span className="text-sm font-bold text-gray-400">{idx + 1}</span>
+                            : <span className="font-serif text-sm font-bold text-gray-400">{idx + 1}</span>
                           }
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">{wb.name}</p>
+                          <p className="font-serif font-bold text-gray-900 truncate">{wb.name}</p>
                           <p className="text-xs text-gray-400 mt-0.5">단어 {wb.count ?? 0}개</p>
                         </div>
                       </div>
@@ -448,8 +448,8 @@ const WordBookPage = () => {
       {detailLoading && (
         <div className="fixed inset-0 bg-white/60 backdrop-blur-sm flex items-center
                         justify-center z-50">
-          <div className="bg-white rounded-2xl px-8 py-5 flex items-center gap-3
-                          shadow-xl border border-gray-100">
+          <div className="bg-white rounded-md px-8 py-5 flex items-center gap-3
+                          shadow-xl border border-gray-200">
             <Spinner className="h-5 w-5 text-blue-500" />
             <p className="text-sm font-medium text-gray-700">불러오는 중</p>
           </div>

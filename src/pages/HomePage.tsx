@@ -425,7 +425,7 @@ const HomePage = () => {
                   <span className="font-serif italic text-blue-600 text-sm">
                     {result.lang}
                   </span>
-                  <span className="text-gray-500 text-xs border border-gray-300 px-2 py-0.5 rounded-sm">
+                  <span className="text-gray-500 text-xs border border-gray-300 px-2 py-0.5 rounded-sm empty:hidden">
                     {result.topic}
                   </span>
                 </div>

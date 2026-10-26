@@ -293,7 +293,7 @@ const WordBookPage = () => {
                   {/* 태그 */}
                   <div className="px-5 pb-4">
                     <span className="inline-block text-gray-500 text-xs border border-gray-300
-                                     px-2 py-0.5 rounded-sm">
+                                     px-2 py-0.5 rounded-sm empty:hidden">
                       {word.topic}
                     </span>
                   </div>

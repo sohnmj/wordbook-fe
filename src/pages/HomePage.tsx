@@ -186,13 +186,11 @@ const HomePage = () => {
     setSearched(true);
 
     try {
-      const { data } = await api.get<WordResult>("/api/v2/openai/search", {
-        params: {
-          keyword: form.keyword.trim(),
-          lang: form.lang,
-          topic: form.topic,
-          meaning: form.meaning.trim(),
-        },
+      const { data } = await api.post<WordResult>("/api/v2/openai/search", {
+        keyword: form.keyword.trim(),
+        lang: form.lang,
+        topic: form.topic,
+        meaning: form.meaning.trim(),
       });
       setResult(data);
       await fetchUsage();

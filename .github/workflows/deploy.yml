@@ -71,4 +71,4 @@ jobs:
             DEPLOY="${{ secrets.FRONT_DEPLOY_PATH }}"
             [ -n "$DEPLOY" ] && [ -d "$DEPLOY" ] || { echo "배포 경로 이상: $DEPLOY"; exit 1; }
             rm -rf "${DEPLOY:?}"/*
-            cp -a "${DEPLOY}_new/." "${DEPLOY}/""
+            cp -a "${DEPLOY}_new/." "${DEPLOY}/"

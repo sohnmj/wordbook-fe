@@ -49,13 +49,26 @@ jobs:
           name: dist
           path: dist
 
-      - name: Copy dist to EC2
+      - name: Copy dist to server (temp)
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: "dist/*"
-          target: ${{ secrets.FRONT_DEPLOY_PATH }}
+          target: ${{ secrets.FRONT_DEPLOY_PATH }}_new
           strip_components: 1
-          overwrite: true
+          rm: true
+
+      - name: Sync into dist
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            set -e
+            DEPLOY="${{ secrets.FRONT_DEPLOY_PATH }}"
+            [ -n "$DEPLOY" ] && [ -d "$DEPLOY" ] || { echo "배포 경로 이상: $DEPLOY"; exit 1; }
+            rm -rf "${DEPLOY:?}"/*
+            cp -a "${DEPLOY}_new/." "${DEPLOY}/""

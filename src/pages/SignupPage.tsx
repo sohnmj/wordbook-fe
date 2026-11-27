@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axiosInstance";
+import { stripFieldPrefix } from "../utils/errorMessage";
 
 type Step = "email" | "verify" | "register";
 
@@ -112,7 +113,7 @@ const SignupPage = () => {
       });
       navigate("/login", { state: { message: "회원가입이 완료되었습니다. 로그인해주세요." } });
     } catch (err: any) {
-      setError(err.response?.data?.message ?? "이미 사용 중인 아이디나 이메일일 수 있습니다.");
+      setError(stripFieldPrefix(err.response?.data?.message) || "이미 사용 중인 아이디나 이메일일 수 있습니다.");
     } finally {
       setLoading(false);
     }

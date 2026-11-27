@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import api from "../api/axiosInstance";
+import { stripFieldPrefix } from "../utils/errorMessage";
 import { useAuth } from "../hooks/useAuth";
 interface WordResult {
   wordId: number;
@@ -29,6 +31,62 @@ const LANGUAGES = [
 ];
 
 const TOPICS = ["일상", "비즈니스", "여행", "음식", "스포츠", "기술", "문화", "기타"];
+
+// ── 예문 검색 (POST + Idempotency-Key) ──────────────────────────────
+interface SearchRequest {
+  keyword: string;
+  lang: string;
+  topic: string;
+  meaning: string;
+}
+
+const SEARCH_TIMEOUT_MS = 25_000; // 서버 상한(약 20초)보다 길게
+const SEARCH_MAX_ATTEMPTS = 3;
+const IN_PROGRESS_DELAY_MS = 1_500;
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// 버튼 클릭 1회 = 키 1개. 네트워크 오류·타임아웃·409는 같은 키로 재시도한다.
+// 400·429·500·503은 재시도하지 않고 호출한 쪽에서 code로 처리한다.
+const searchWord = async (body: SearchRequest): Promise<WordResult> => {
+  const key = crypto.randomUUID();
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < SEARCH_MAX_ATTEMPTS; attempt++) {
+    try {
+      const { data } = await api.post<WordResult>("/api/v2/openai/search", body, {
+        headers: { "Idempotency-Key": key },
+        timeout: SEARCH_TIMEOUT_MS,
+      });
+      return data;
+    } catch (err) {
+      lastError = err;
+      if (!axios.isAxiosError(err)) throw err;
+      if (!err.response) continue; // 네트워크 오류·타임아웃
+      if (err.response.data?.code === "REQUEST_IN_PROGRESS") {
+        await sleep(IN_PROGRESS_DELAY_MS);
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw lastError;
+};
+
+const searchErrorMessage = (err: unknown): string => {
+  const data = axios.isAxiosError(err) ? err.response?.data : undefined;
+  switch (data?.code) {
+    case "INVALID_INPUT":
+      return stripFieldPrefix(data.message) || "입력값을 확인해주세요.";
+    case "USAGE_EXHAUSTED":
+      return "오늘 사용 가능한 횟수를 모두 사용했습니다.";
+    case "AI_UNAVAILABLE":
+    case "TEMPORARILY_UNAVAILABLE":
+      return "잠시 후 다시 시도해주세요.";
+    default:
+      return "검색 중 오류가 발생했습니다. 다시 시도해주세요.";
+  }
+};
 
 const HighlightedExample = ({
   example, start, end,
@@ -186,22 +244,19 @@ const HomePage = () => {
     setSearched(true);
 
     try {
-      const { data } = await api.post<WordResult>("/api/v2/openai/search", {
+      const data = await searchWord({
         keyword: form.keyword.trim(),
         lang: form.lang,
         topic: form.topic,
         meaning: form.meaning.trim(),
       });
       setResult(data);
-      await fetchUsage();
-    } catch (err: any) {
-      if (err.response?.status === 400) {
-        setError("사용 가능한 횟수를 초과했습니다.");
-      } else {
-        setError("검색 중 오류가 발생했습니다. 다시 시도해주세요.");
-      }
+    } catch (err) {
+      setError(searchErrorMessage(err));
     } finally {
       setLoading(false);
+      // 실패 시 사용량은 환불되거나 차감되지 않으므로 성공·실패 모두 다시 조회
+      fetchUsage();
     }
   };
 
@@ -314,6 +369,7 @@ const HomePage = () => {
                 value={form.keyword}
                 onChange={handleChange}
                 placeholder="검색할 단어를 입력하세요"
+                maxLength={50}
                 disabled={!hasUsage}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
                            focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20
@@ -367,6 +423,7 @@ const HomePage = () => {
                 value={form.meaning}
                 onChange={handleChange}
                 placeholder="예) 사랑, love, 走る..."
+                maxLength={100}
                 disabled={!hasUsage}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
                            focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20

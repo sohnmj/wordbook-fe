@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Frontend for a vocabulary ("word book") app. Current task: **redesign the visual appearance only**. Do not change API calls, request/response shapes, routes, auth flow, or state/data structure — only markup/styling.
 
+Exception: API changes that follow the backend's `wordbook-backend/docs/FRONTEND_CHANGES.md` (e.g. example search as `POST` + JSON body + `Idempotency-Key`, `{code, message}` error handling) are allowed.
+
 ## Commands
 
 - `npm run dev` — Vite dev server
